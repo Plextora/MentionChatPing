@@ -9,7 +9,16 @@ export const module: Module = new Module(
 
 client.on("receive-chat", (ev) => {
   if (ev.isChat && module.isEnabled() && game.getLocalPlayer()?.isValid()) {
-    if (ev.message.includes(game.getLocalPlayer()?.getName()!)) {
+    if (
+      ev.message.includes(game.getLocalPlayer()?.getName()!) ||
+      ev.message.includes(
+        client
+          .getModuleManager()
+          .getModuleByName("Nickname")
+          ?.getSettings()[2]
+          .getValue()
+      )
+    ) {
       if (module.isEnabled()) {
         game.playSoundUI(
           "random.orb",
