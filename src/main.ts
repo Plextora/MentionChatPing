@@ -1,3 +1,5 @@
+import { soundVolume, soundPitch, debugMode } from "./moduleOptions";
+
 export const module: Module = new Module(
   "MentionChatPing",
   "MentionChatPing",
@@ -9,7 +11,16 @@ client.on("receive-chat", (ev) => {
   if (ev.isChat && module.isEnabled() && game.getLocalPlayer()?.isValid()) {
     if (ev.message.includes(game.getLocalPlayer()?.getName()!)) {
       if (module.isEnabled()) {
-        game.playSoundUI("random.orb", 1, 1);
+        game.playSoundUI(
+          "random.orb",
+          soundVolume.getValue(),
+          soundPitch.getValue()
+        );
+        if (debugMode.getValue()) {
+          script.log(
+            `Played random.orb at vol ${soundVolume.getValue()} and pitch ${soundPitch.getValue()}`
+          );
+        }
       }
     }
   }
